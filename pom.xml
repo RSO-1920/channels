@@ -31,7 +31,7 @@
     <dependencies>
         <dependency>
             <groupId>com.kumuluz.ee</groupId>
-            <artifactId>kumuluzee-core</artifactId>
+            <artifactId>kumuluzee-microProfile-1.0</artifactId>
         </dependency>
         <dependency>
             <groupId>com.kumuluz.ee</groupId>
