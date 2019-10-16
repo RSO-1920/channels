@@ -28,21 +28,13 @@ public class ChannelsResource {
         return Response.ok(channels).build();
     }
 
-    /*
-    @GET
-    @Path("count")
-    public Response getCommentsCount(@QueryParam("imageId") Integer imageId) {
+    @POST
+    @Path("addChannel")
+    public Response addChannel(Channel newChannel) {
 
-        List<Comment> comments;
+        int a = 3;  // ChannelsBean.add_Channel(newChannel);
 
-        if (imageId != null) {
-            comments = commentsBean.getCommentsForImage(imageId);
-        } else {
-            comments = commentsBean.getComments();
-        }
 
-        return Response.ok(comments.size()).build();
+        return Response.status(Response.Status.OK).entity(a).build();
     }
-    */
-
 }

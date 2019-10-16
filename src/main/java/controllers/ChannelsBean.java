@@ -11,6 +11,7 @@ public class ChannelsBean {
 
     private List<Channel> channels;
 
+
     @PostConstruct
     private void init() {
 
@@ -28,6 +29,11 @@ public class ChannelsBean {
         return channels;
 
     }
+    public Channel add_Channel(Channel newChannel){
 
+        Channel created_channel = new Channel("44444", 4, 1);
+        this.channels.add(created_channel);
+        return created_channel;
+    }
 
 }
