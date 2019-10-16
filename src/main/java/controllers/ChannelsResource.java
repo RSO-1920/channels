@@ -30,11 +30,14 @@ public class ChannelsResource {
 
     @POST
     @Path("addChannel")
-    public Response addChannel(Channel newChannel) {
+    public Response addChannel(ChannelDTO channel) {
 
-        int a = 3;  // ChannelsBean.add_Channel(newChannel);
+        System.out.println("Channel name: " + channel.getChannelName());
+        System.out.println("Channel userId: " + channel.getChannelAdminId());
+
+        boolean isCreated = true;  // ChannelsBean.add_Channel(newChannel);
 
 
-        return Response.status(Response.Status.OK).entity(a).build();
+        return Response.status(Response.Status.OK).entity(isCreated).build();
     }
 }
