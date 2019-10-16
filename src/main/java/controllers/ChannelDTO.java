@@ -16,7 +16,7 @@ public class ChannelDTO {
         return this.channelAdminId;
     }
 
-    public void setChannelUserId(Integer channelAdminId) {
+    public void setChannelAdminId(Integer channelAdminId) {
         this.channelAdminId = channelAdminId;
     }
 
