@@ -27,11 +27,6 @@ public class Channel {
 
     }
 
-
-    public Integer getAdminId() {
-        return Channel_admin_id;
-    }
-
     public List<Integer> getChannel_user_id_list() {
         return Channel_user_id_list;
     }

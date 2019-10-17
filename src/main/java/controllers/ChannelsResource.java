@@ -30,14 +30,28 @@ public class ChannelsResource {
 
     @POST
     @Path("addChannel")
-    public Response addChannel(ChannelDTO channel) {
+    public Response addChannel(ChannelDTO newChannel) {
 
-        System.out.println("Channel name: " + channel.getChannelName());
-        System.out.println("Channel userId: " + channel.getChannelAdminId());
+        System.out.println("Channel name: " + newChannel.getChannelName());
+        System.out.println("Channel userId: " + newChannel.getChannelAdminId());
 
-        boolean isCreated = true;  // ChannelsBean.add_Channel(newChannel);
+        boolean isCreated = true;
+        channelsBean.add_Channel(newChannel);
 
 
         return Response.status(Response.Status.OK).entity(isCreated).build();
     }
+
+    @POST
+    @Path("renameChannel")
+    public Response renameChannel(ChannelDTO newChannel) {
+
+
+        boolean isCreated = true;
+        channelsBean.rename_Channel(newChannel);
+
+
+        return Response.status(Response.Status.OK).entity(isCreated).build();
+    }
+
 }
