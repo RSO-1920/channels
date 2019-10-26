@@ -19,11 +19,14 @@ branches:
 
 env:
   - DOCKER_IMAGE=rso1920/channels:1.0.0-SNAPSHOT-$TRAVIS_JOB_NUMBER
+  - DOCKER_LATEST=rso1920/channels:latest
 
 script:
   - mvn clean package -U
   - docker build -t "$DOCKER_IMAGE" .
+  - docker tag rso1920/channels "$DOCKER_LATEST"
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push "$DOCKER_IMAGE"
+  - docker push "$DOCKER_LATEST"
