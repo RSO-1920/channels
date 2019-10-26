@@ -24,7 +24,7 @@ env:
 script:
   - mvn clean package -U
   - docker build -t "$DOCKER_IMAGE" .
-  - docker tag $DOCKER_IMAGE $DOCKER_LATEST
+  - docker tag rso1920/channels:1.0.0-SNAPSHOT-$TRAVIS_JOB_NUMBER rso1920/channels:latest
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
