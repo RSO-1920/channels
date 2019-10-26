@@ -19,7 +19,6 @@ branches:
 
 env:
   - DOCKER_IMAGE=rso1920/channels:1.0.0-SNAPSHOT-$TRAVIS_JOB_NUMBER
-  - DOCKER_LATEST=rso1920/channels:latest
 
 script:
   - mvn clean package -U
