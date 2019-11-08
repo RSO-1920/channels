@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rso1920-channels-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rso1920-channels
+  template:
+    metadata:
+      labels:
+        app: rso1920-channels
+    spec:
+      containers:
+      - image: rso1920/channels:latest
+        name: rso1920-channels
+        ports:
+        - containerPort: 8080
+          name: server-channel
+          protocol: TCP
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rso1920-channels
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: server-channel
+  selector:
+    app: rso1920-channels
