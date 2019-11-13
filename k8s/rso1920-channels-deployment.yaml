@@ -15,6 +15,13 @@ spec:
       containers:
       - image: rso1920/channels:latest
         name: rso1920-channels
+        env:
+          - name: KUMULUZEE_DISCOVERY_ETCD_HOSTS
+            value: http://etcd:2379
+          - name: KUMULUZEE_CONFIG_ETCD_HOSTS
+            value: http://etcd:2379
+          - name: KUMULUZEE_SERVER_BASEURL
+            value: http://34.67.224.136:8080
         ports:
         - containerPort: 8080
           name: server-channel
