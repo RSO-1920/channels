@@ -25,7 +25,6 @@ public class ChannelsBean {
     @Inject
     private DbUtils dbUtils;
 
-
     @PostConstruct
     private void init() {
     }
@@ -65,8 +64,24 @@ public class ChannelsBean {
         return ChannelConverter.toDTO(channelEntity);
     }
 
-    public ChannelDTO rename_Channel(ChannelData updateChannelData){
-        return null;
+    public ChannelDTO renameChannel(ChannelData updateChannelData){
+        ChannelEntity c = em.find(ChannelEntity.class, updateChannelData.getChannelId());
+        if (c == null) {
+            return null;
+        }
+
+        ChannelEntity updatedChannelEntity = ChannelConverter.toEntityUpdate(updateChannelData, c);
+
+        try {
+            dbUtils.beginTx();
+            updatedChannelEntity = em.merge(updatedChannelEntity);
+            dbUtils.commitTx();
+        } catch (Exception e) {
+            e.printStackTrace();
+            dbUtils.rollbackTx();
+        }
+
+        return ChannelConverter.toDTO(updatedChannelEntity);
     }
 
 }

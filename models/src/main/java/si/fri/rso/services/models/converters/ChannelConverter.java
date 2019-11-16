@@ -6,11 +6,13 @@ import si.fri.rso.lib.ChannelTypeDTO;
 import si.fri.rso.services.models.entities.ChannelEntity;
 import si.fri.rso.services.models.entities.ChannelTypeEntity;
 
+import java.util.Optional;
+
 public class ChannelConverter {
     public static ChannelDTO toDTO (ChannelEntity channelEntity) {
         ChannelDTO channel = new ChannelDTO();
-        ChannelTypeDTO channelTypeDTO  = new ChannelTypeDTO();
 
+        ChannelTypeDTO channelTypeDTO  = new ChannelTypeDTO();
         channelTypeDTO.setTypeId(channelEntity.getChannelTypeEntity().getTypeId());
         channelTypeDTO.setTypeName(channelEntity.getChannelTypeEntity().getTypeName());
 
@@ -27,6 +29,17 @@ public class ChannelConverter {
         channelEntity.setAdminId(channelData.getAdminId());
         channelEntity.setChannelName(channelData.getChannelName());
         channelEntity.setChannelTypeEntity(channelTypeEntity);
+
+        return channelEntity;
+    }
+
+    public static ChannelEntity toEntityUpdate (ChannelData channelData, ChannelEntity entity) {
+        ChannelEntity channelEntity = new ChannelEntity();
+        channelEntity.setAdminId(entity.getAdminId());
+        channelEntity.setChannelTypeEntity(entity.getChannelTypeEntity());
+        channelEntity.setChannelId(entity.getChannelId());
+
+        channelEntity.setChannelName(channelData.getChannelName());
 
         return channelEntity;
     }

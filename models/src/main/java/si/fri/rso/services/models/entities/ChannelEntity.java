@@ -55,4 +55,8 @@ public class ChannelEntity implements MainEntity {
     public void setChannelTypeEntity(ChannelTypeEntity channelTypeEntity) {
         this.channelTypeEntity = channelTypeEntity;
     }
+
+    public void setChannelId(Integer channelId) {
+        this.channelId = channelId;
+    }
 }

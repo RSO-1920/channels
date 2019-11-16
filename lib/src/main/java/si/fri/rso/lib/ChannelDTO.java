@@ -1,10 +1,12 @@
 package si.fri.rso.lib;
 
+import java.util.Optional;
+
 public class ChannelDTO {
     private Integer channelId;
     private Integer adminId;
     private String channelName;
-    private ChannelTypeDTO channelType;
+    private Optional<ChannelTypeDTO> channelType;
 
     public String getChannelName() {
         return channelName;
@@ -16,12 +18,12 @@ public class ChannelDTO {
         return channelId;
     }
     public ChannelTypeDTO getChannelType() {
-        return channelType;
+        return channelType.orElse(null);
     }
 
 
     public void setChannelType(ChannelTypeDTO channelType) {
-        this.channelType = channelType;
+        this.channelType = Optional.ofNullable(channelType);
     }
     public void setAdminId(Integer adminId) {
         this.adminId = adminId;

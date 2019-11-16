@@ -49,12 +49,26 @@ public class ChannelsController extends MainController {
         return Response.status(200).entity(this.responseOk("", createdChannel)).build();
     }
 
-    @POST
+    @PUT
     @Path("renameChannel")
     public Response renameChannel(String body) {
+        Gson gson = new Gson();
+        ChannelData  channelData = gson.fromJson(body, ChannelData.class);
 
-        boolean isCreated = true;
-        return Response.status(Response.Status.OK).entity(isCreated).build();
+        if (channelData.getChannelName() == null || channelData.getChannelId() == null) {
+            return Response.status(400).entity(this.responseError(400, "channelName or channelId is missing")).build();
+        }
+
+        System.out.println("renaming channel: " + channelData.getChannelId() + " newName: " + channelData.getChannelName());
+
+        ChannelDTO updatedChannelData = channelsBean.renameChannel(channelData);
+
+        System.out.println(updatedChannelData.getChannelName());
+        if (updatedChannelData == null) {
+            return Response.status(400).entity(this.responseError(400, "channel with given id not found")).build();
+        }
+
+        return Response.status(200).entity(this.responseOk("", updatedChannelData)).build();
     }
 
 }
