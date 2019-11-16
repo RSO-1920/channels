@@ -1,7 +1,4 @@
-package controllers;
-
-import java.util.ArrayList;
-import java.util.List;
+package si.fri.rso.lib;
 
 
 public class ChannelDTO {

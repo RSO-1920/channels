@@ -1,6 +1,8 @@
-package controllers;
+package si.fri.rso.beans;
 
-import javax.enterprise.context.ApplicationScoped;
+import si.fri.rso.lib.Channel;
+import si.fri.rso.lib.ChannelDTO;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
@@ -37,10 +39,10 @@ public class ChannelsBean {
     }
 
     public Channel rename_Channel(ChannelDTO newChannel){
-        for (int i = 0; i < channels.size(); i++){
-            if (channels.get(i).getChannel_id().equals(newChannel.getChannelId())){
-                channels.get(i).setChannel_name(newChannel.getChannelName());
-                return channels.get(i);
+        for (Channel channel : channels) {
+            if (channel.getChannel_id().equals(newChannel.getChannelId())) {
+                channel.setChannel_name(newChannel.getChannelName());
+                return channel;
             }
         }
         return null;

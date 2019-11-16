@@ -1,10 +1,12 @@
-package controllers;
+package si.fri.rso.api.v1.controllers;
+
+import si.fri.rso.beans.ChannelsBean;
+import si.fri.rso.lib.Channel;
+import si.fri.rso.lib.ChannelDTO;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import controllers.Channel;
-import controllers.ChannelsBean;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -23,7 +25,7 @@ public class ChannelsResource {
 
         List<Channel> channels;
 
-            channels = channelsBean.getChannels();
+        channels = channelsBean.getChannels();
 
         return Response.ok(channels).build();
     }

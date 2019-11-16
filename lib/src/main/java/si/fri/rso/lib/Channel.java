@@ -1,10 +1,7 @@
-package controllers;
+package si.fri.rso.lib;
 
-import java.lang.reflect.Array;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 public class Channel {
