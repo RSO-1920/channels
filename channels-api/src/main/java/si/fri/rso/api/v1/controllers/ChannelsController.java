@@ -2,6 +2,7 @@ package si.fri.rso.api.v1.controllers;
 
 import com.google.gson.Gson;
 import si.fri.rso.api.v1.MainController;
+import si.fri.rso.lib.UserChannelData;
 import si.fri.rso.services.beans.ChannelsBean;
 import si.fri.rso.lib.ChannelDTO;
 import si.fri.rso.lib.ChannelData;
@@ -82,11 +83,39 @@ public class ChannelsController extends MainController {
         ChannelDTO updatedChannelData = channelsBean.renameChannel(channelData);
 
         System.out.println(updatedChannelData.getChannelName());
-        if (updatedChannelData == null) {
-            return Response.status(400).entity(this.responseError(400, "channel with given id not found")).build();
-        }
 
         return Response.status(200).entity(this.responseOk("", updatedChannelData)).build();
+    }
+
+    @POST
+    @Path("addUserOnChannel")
+    public Response addUserOnChannel(String body) {
+        Gson gson = new Gson();
+        UserChannelData userChannelData = (UserChannelData)gson.fromJson(body, UserChannelData.class);
+        if (userChannelData.getChannelId() == null || userChannelData.getUserId() == null) {
+            return Response.status(400).entity(this.responseError(400, "channel id or userId is missing")).build();
+        }
+
+        boolean isCreated = channelsBean.addUserOnChannel(userChannelData);
+
+        if (!isCreated) {
+            return Response.status(409).entity(this.responseError(409, "user " + userChannelData.getUserId() +  " on channel: " + userChannelData.getChannelId() + " not added")).build();
+        }
+
+        return Response.status(200).entity(this.responseOk("user added succesfully", isCreated)).build();
+    }
+
+    @DELETE
+    @Path("remove/user/{userId}/channel/{channelId}")
+    public Response removeUserOnChannel(@PathParam("userId") Integer userId, @PathParam("channelId") Integer channelId) {
+
+        boolean isDeleted = channelsBean.removeUserOnChannel(userId, channelId);
+
+        if (!isDeleted) {
+            return Response.status(409).entity(this.responseError(409, "user " +  userId +  " on channel: " + channelId + " not removed")).build();
+        }
+
+        return Response.status(200).entity(this.responseOk("user succesfully removed", isDeleted)).build();
     }
 
 }

@@ -2,7 +2,9 @@ package si.fri.rso.services.beans;
 
 import si.fri.rso.lib.ChannelDTO;
 import si.fri.rso.lib.ChannelData;
+import si.fri.rso.lib.UserChannelData;
 import si.fri.rso.services.models.converters.ChannelConverter;
+import si.fri.rso.services.models.converters.UserOnChannelConverter;
 import si.fri.rso.services.models.entities.ChannelEntity;
 import si.fri.rso.services.models.entities.ChannelTypeEntity;
 import si.fri.rso.services.models.entities.UsersOnChannelEntity;
@@ -54,7 +56,32 @@ public class ChannelsBean {
             usersIds.add(usersOnChannelEntity.getUserId());
         }
 
+        // TODO get all users based on id.. call user service :)
+
         return usersIds;
+    }
+
+    public boolean addUserOnChannel(UserChannelData userChannelData) {
+        ChannelEntity c = em.find(ChannelEntity.class, userChannelData.getChannelId());
+        if (c == null) {
+            System.out.println("channel not found");
+            return false;
+        }
+
+        if (c.getChannelTypeEntity().getTypeId() == 1) {
+            System.out.println("channel reserved only for owner");
+            return false;
+        }
+
+        UsersOnChannelEntity usersOnChannelEntity = UserOnChannelConverter.toEntity(userChannelData, c);
+        usersOnChannelEntity = (UsersOnChannelEntity) dbUtils.createNewEntity(usersOnChannelEntity);
+
+        if (usersOnChannelEntity == null || usersOnChannelEntity.getId() == null) {
+            System.out.println("user on channel entity not created");
+            return false;
+        }
+
+        return true;
     }
 
 
@@ -103,6 +130,41 @@ public class ChannelsBean {
         }
 
         return ChannelConverter.toDTO(updatedChannelEntity);
+    }
+
+    public boolean removeUserOnChannel(Integer userId, Integer channelId) {
+        ChannelEntity c = em.find(ChannelEntity.class, channelId);
+        if (c == null) {
+            System.out.println("channel with channel id doesn't exist");
+            return false;
+        }
+
+        if (c.getChannelTypeEntity().getTypeId() == 1) {
+            System.out.println("can not delete owner from user default channel");
+            return false;
+        }
+
+        Query q = em.createNamedQuery("getUserChannelEntity").setParameter(1, userId).setParameter(2, channelId);
+        UsersOnChannelEntity usersOnChannelEntity;
+        try {
+            usersOnChannelEntity = (UsersOnChannelEntity) q.getSingleResult();
+        } catch (Exception e) {
+            System.out.println("No record in DB");
+            return false;
+        }
+
+
+        try {
+            dbUtils.beginTx();
+            em.remove(usersOnChannelEntity);
+            dbUtils.commitTx();
+        } catch (Exception e) {
+            e.printStackTrace();
+            dbUtils.rollbackTx();
+            return false;
+        }
+
+        return true;
     }
 
 }

@@ -5,11 +5,15 @@ import si.fri.rso.services.models.interfaces.MainEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users_on_channel")
+@Table(name = "users_on_channel",
+        uniqueConstraints = @UniqueConstraint(columnNames={"user_id", "fk_channel_id"}))
 
 @NamedNativeQueries({
         @NamedNativeQuery(name = "getAllUsersOnChannels",
                 query = "SELECT * FROM users_on_channel",
+                resultClass = UsersOnChannelEntity.class),
+        @NamedNativeQuery(name = "getUserChannelEntity",
+                query = "SELECT * FROM users_on_channel where users_on_channel.user_id = ?1 and users_on_channel.fk_channel_id = ?2",
                 resultClass = UsersOnChannelEntity.class),
 
         @NamedNativeQuery(name = "getUsersForChannel",

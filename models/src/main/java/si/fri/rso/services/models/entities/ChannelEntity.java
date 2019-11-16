@@ -12,6 +12,10 @@ import javax.persistence.*;
                 query = "SELECT * FROM channel",
                 resultClass = ChannelEntity.class),
 
+        @NamedNativeQuery(name = "getOneChannel",
+                query = "SELECT * FROM channel WHERE channel.channel_id = ?1",
+                resultClass = ChannelEntity.class),
+
         @NamedNativeQuery(name = "getChannelsForUser",
                 query = "SELECT * FROM channel INNER JOIN users_on_channel ON channel.channel_id = users_on_channel.fk_channel_id WHERE users_on_channel.user_id = ?1",
                 resultClass = ChannelEntity.class),
