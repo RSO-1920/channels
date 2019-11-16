@@ -167,4 +167,6 @@ public class ChannelsBean {
         return true;
     }
 
+    // TODO method for deleting whole channel... channel shoud not be deleted in channel is user default. Delete also all users on channel
+
 }
