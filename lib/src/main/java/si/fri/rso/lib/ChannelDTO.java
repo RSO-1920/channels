@@ -4,7 +4,7 @@ public class ChannelDTO {
     private Integer channelId;
     private Integer adminId;
     private String channelName;
-    private ChannelTypeDTO channelTypeDTO;
+    private ChannelTypeDTO channelType;
 
     public String getChannelName() {
         return channelName;
@@ -15,11 +15,14 @@ public class ChannelDTO {
     public Integer getChannelId() {
         return channelId;
     }
-    public ChannelTypeDTO getChannelTypeDTO() {
-        return channelTypeDTO;
+    public ChannelTypeDTO getChannelType() {
+        return channelType;
     }
 
 
+    public void setChannelType(ChannelTypeDTO channelType) {
+        this.channelType = channelType;
+    }
     public void setAdminId(Integer adminId) {
         this.adminId = adminId;
     }
@@ -29,7 +32,5 @@ public class ChannelDTO {
     public void setChannelId(Integer channelId) {
         this.channelId = channelId;
     }
-    public void setChannelTypeDTO(ChannelTypeDTO channelTypeDTO) {
-        this.channelTypeDTO = channelTypeDTO;
-    }
+
 }

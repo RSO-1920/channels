@@ -17,7 +17,7 @@ public class ChannelConverter {
         channel.setAdminId(channelEntity.getAdminId());
         channel.setChannelId(channelEntity.getChannelId());
         channel.setChannelName(channelEntity.getChannelName());
-        channel.setChannelTypeDTO(channelTypeDTO);
+        channel.setChannelType(channelTypeDTO);
 
         return channel;
     }
