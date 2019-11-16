@@ -1,4 +1,4 @@
-package si.fri.rso.lib;
+package si.fri.rso.services.lib;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,10 +1,14 @@
-package si.fri.rso.beans;
+package si.fri.rso.services.beans;
 
-import si.fri.rso.lib.Channel;
-import si.fri.rso.lib.ChannelDTO;
+import si.fri.rso.services.lib.Channel;
+import si.fri.rso.services.lib.ChannelDTO;
+import si.fri.rso.services.models.entities.ChannelEntity;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +16,9 @@ import java.util.List;
 public class ChannelsBean {
 
     private List<Channel> channels;
+
+    @Inject
+    private EntityManager em;
 
 
     @PostConstruct
@@ -27,6 +34,13 @@ public class ChannelsBean {
 
 
     public List<Channel> getChannels() {
+        Query q = em.createNamedQuery("getChannels");
+        List<ChannelEntity> channelFiles =  q.getResultList();
+        for (ChannelEntity ch : channelFiles) {
+            System.out.println(ch.getChannelName());
+            System.out.println(ch.getChannelTypeEntity().getTypeName());
+            System.out.println("-----------------");
+        }
 
         return channels;
 

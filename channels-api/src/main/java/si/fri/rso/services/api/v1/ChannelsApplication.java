@@ -1,4 +1,4 @@
-package si.fri.rso.api.v1;
+package si.fri.rso.services.api.v1;
 
 import com.kumuluz.ee.discovery.annotations.RegisterService;
 

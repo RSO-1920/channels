@@ -7,6 +7,12 @@ kumuluzee:
     base-url: http://localhost:8080
     http:
       port: 8080
+  datasources:
+    - jndi-name: jdbc/ChannelDS
+      connection-url: jdbc:postgresql://localhost:5435/channels
+      username: postgres
+      password: postgres
+      max-pool-size: 20
   config:
     start-retry-delay-ms: 500
     max-retry-delay-ms: 900000

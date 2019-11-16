@@ -1,8 +1,8 @@
-package si.fri.rso.api.v1.controllers;
+package si.fri.rso.services.api.v1.controllers;
 
-import si.fri.rso.beans.ChannelsBean;
-import si.fri.rso.lib.Channel;
-import si.fri.rso.lib.ChannelDTO;
+import si.fri.rso.services.beans.ChannelsBean;
+import si.fri.rso.services.lib.Channel;
+import si.fri.rso.services.lib.ChannelDTO;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
