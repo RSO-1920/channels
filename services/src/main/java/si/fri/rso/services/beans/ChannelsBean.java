@@ -13,6 +13,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,14 +30,34 @@ public class ChannelsBean {
     private void init() {
     }
 
-
     public List<ChannelDTO> getChannels() {
         Query q = em.createNamedQuery("getChannels");
         List<ChannelEntity> channels = (List<ChannelEntity>) q.getResultList();
 
         return channels.stream().map(ChannelConverter::toDTO).collect(Collectors.toList());
-
     }
+
+    public List<ChannelDTO> getUserChannels(Integer userId) {
+        Query q = em.createNamedQuery("getChannelsForUser").setParameter(1, userId);
+        List<ChannelEntity> channels = (List<ChannelEntity>) q.getResultList();
+
+        return channels.stream().map(ChannelConverter::toDTO).collect(Collectors.toList());
+    }
+
+    public List<Integer> getChannelUsers(Integer channelId) {
+        Query q = em.createNamedQuery("getUsersForChannel").setParameter(1, channelId);
+        List<UsersOnChannelEntity> usersOnChannel = (List<UsersOnChannelEntity>) q.getResultList();
+
+        List<Integer> usersIds = new ArrayList<Integer>();
+
+        for (UsersOnChannelEntity usersOnChannelEntity : usersOnChannel) {
+            usersIds.add(usersOnChannelEntity.getUserId());
+        }
+
+        return usersIds;
+    }
+
+
     public ChannelDTO createChannel(ChannelData newChannel){
         Query q = em.createNamedQuery("getTypeOnId").setParameter(1, newChannel.getChannelType());
         ChannelTypeEntity channelTypeEntity = (ChannelTypeEntity) q.getSingleResult();

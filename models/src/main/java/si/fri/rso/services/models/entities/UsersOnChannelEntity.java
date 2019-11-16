@@ -11,6 +11,10 @@ import javax.persistence.*;
         @NamedNativeQuery(name = "getAllUsersOnChannels",
                 query = "SELECT * FROM users_on_channel",
                 resultClass = UsersOnChannelEntity.class),
+
+        @NamedNativeQuery(name = "getUsersForChannel",
+                query = "SELECT * FROM users_on_channel INNER JOIN channel ON users_on_channel.fk_channel_id = channel.channel_id  WHERE users_on_channel.fk_channel_id = ?1",
+                resultClass = UsersOnChannelEntity.class),
 })
 
 public class UsersOnChannelEntity implements MainEntity {

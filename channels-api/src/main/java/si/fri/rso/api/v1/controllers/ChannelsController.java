@@ -23,12 +23,30 @@ public class ChannelsController extends MainController {
     private ChannelsBean channelsBean;
 
     @GET
-    public Response getChannels(/*@QueryParam("channelId") Integer channelId*/) {
+    public Response getChannels() {
 
         List<ChannelDTO> channels = channelsBean.getChannels();
 
         return Response.status(200).entity(this.responseOk("", channels)).build();
     }
+
+    @GET
+    @Path("userChannels/{userId}")
+    public Response getUserChannels(@PathParam("userId") Integer userId) {
+        List<ChannelDTO> userChannels = channelsBean.getUserChannels(userId);
+
+        return Response.status(200).entity(this.responseOk("", userChannels)).build();
+    }
+
+
+    @GET
+    @Path("channelUsers/{channelId}")
+    public Response getChannelUsers(@PathParam("channelId") Integer channelId) {
+        List<Integer> usersIds =  channelsBean.getChannelUsers(channelId);
+
+        return Response.status(200).entity(this.responseOk("", usersIds)).build();
+    }
+
 
     @POST
     @Path("createChannel")

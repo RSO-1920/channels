@@ -7,4 +7,5 @@ INSERT INTO channel (channel_name, admin_id, fk_type_id) VALUES ('first channel 
 
 INSERT INTO users_on_channel (user_id, fk_channel_id) VALUES (1, 1);
 INSERT INTO users_on_channel (user_id, fk_channel_id) VALUES (1, 2);
+INSERT INTO users_on_channel (user_id, fk_channel_id) VALUES (2, 2);
 INSERT INTO users_on_channel (user_id, fk_channel_id) VALUES (2, 3);
