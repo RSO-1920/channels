@@ -1,6 +1,8 @@
 package si.fri.rso.services.models.entities;
 
 
+import si.fri.rso.services.models.interfaces.MainEntity;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,9 +12,12 @@ import javax.persistence.*;
         @NamedNativeQuery(name = "getTypes",
                 query = "SELECT * FROM channelType",
                 resultClass = ChannelTypeEntity.class),
+        @NamedNativeQuery(name = "getTypeOnId",
+                query = "SELECT * FROM channel_type WHERE channel_type.type_id = ?1",
+                resultClass = ChannelTypeEntity.class),
 })
 
-public class ChannelTypeEntity {
+public class ChannelTypeEntity implements MainEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "type_id")
@@ -20,6 +25,13 @@ public class ChannelTypeEntity {
 
     @Column(name = "type_name")
     private String typeName;
+
+    public ChannelTypeEntity(){}
+
+    public ChannelTypeEntity(Integer typeId, String typeName) {
+        this.typeId = typeId;
+        this.typeName = typeName;
+    }
 
     public Integer getTypeId() {
         return typeId;

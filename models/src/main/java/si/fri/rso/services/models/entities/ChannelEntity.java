@@ -1,5 +1,7 @@
 package si.fri.rso.services.models.entities;
 
+import si.fri.rso.services.models.interfaces.MainEntity;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,7 +13,7 @@ import javax.persistence.*;
                 resultClass = ChannelEntity.class),
 })
 
-public class ChannelEntity {
+public class ChannelEntity implements MainEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "channel_id")
@@ -41,10 +43,6 @@ public class ChannelEntity {
 
     public ChannelTypeEntity getChannelTypeEntity() {
         return channelTypeEntity;
-    }
-
-    public void setChannelId(Integer channelId) {
-        this.channelId = channelId;
     }
 
     public void setChannelName(String channelName) {
