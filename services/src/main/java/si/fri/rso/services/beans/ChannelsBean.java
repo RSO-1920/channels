@@ -153,7 +153,6 @@ public class ChannelsBean {
             return false;
         }
 
-
         try {
             dbUtils.beginTx();
             em.remove(usersOnChannelEntity);
@@ -167,6 +166,28 @@ public class ChannelsBean {
         return true;
     }
 
-    // TODO method for deleting whole channel... channel shoud not be deleted in channel is user default. Delete also all users on channel
+    public int deleteChannel(Integer channelId, boolean canDeleteDefaultChannel) {
+        ChannelEntity c = em.find(ChannelEntity.class, channelId);
+        if (c == null || ( c.getChannelTypeEntity().getTypeId() == 1 && !canDeleteDefaultChannel)) {
+            System.out.println("Channel not found or not aloud to be deleted");
+            return 0;
+        }
+
+        Query query = em.createNamedQuery("deleteUsersOnChannel").setParameter(1, channelId);
+        int numDeletedUsers = 0;
+        try {
+            dbUtils.beginTx();
+             numDeletedUsers = query.executeUpdate();
+            em.remove(c);
+            dbUtils.commitTx();
+            System.out.println("deleted users from channel: " + numDeletedUsers);
+        } catch (Exception e) {
+            e.printStackTrace();
+            dbUtils.rollbackTx();
+            return 0;
+        }
+
+        return numDeletedUsers;
+    }
 
 }

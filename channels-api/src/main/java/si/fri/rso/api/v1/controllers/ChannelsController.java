@@ -115,7 +115,20 @@ public class ChannelsController extends MainController {
             return Response.status(409).entity(this.responseError(409, "user " +  userId +  " on channel: " + channelId + " not removed")).build();
         }
 
-        return Response.status(200).entity(this.responseOk("user succesfully removed", isDeleted)).build();
+        return Response.status(200).entity(this.responseOk("user successfully removed", isDeleted)).build();
+    }
+
+    @DELETE
+    @Path("{channelId}/channel")
+    public Response deleteChannel(@PathParam("channelId") Integer channelId, @QueryParam("deleteDefault") boolean deleteDefault) {
+        System.out.println("can delete default: " + deleteDefault);
+
+        int numDeletedUsersOnChannel = channelsBean.deleteChannel(channelId, deleteDefault);
+        if (numDeletedUsersOnChannel == 0) {
+            return Response.status(409).entity(this.responseError(409, "Channel: " + channelId + " not deleted")).build();
+        }
+
+        return Response.status(200).entity(this.responseOk("Channel removed", "num dleted users: " + numDeletedUsersOnChannel)).build();
     }
 
 }
