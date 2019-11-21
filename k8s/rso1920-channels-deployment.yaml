@@ -21,7 +21,7 @@ spec:
           - name: KUMULUZEE_CONFIG_ETCD_HOSTS
             value: http://etcd:2379
           - name: KUMULUZEE_SERVER_BASEURL
-            value: http://34.67.224.136:8080
+            value: http://10.28.2.163:8080
           - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
             value: jdbc:postgresql://35.241.190.224:5432/channels
           - name: KUMULUZEE_DATASOURCES0_USERNAME
@@ -39,7 +39,7 @@ kind: Service
 metadata:
   name: rso1920-channels
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - port: 8080
     protocol: TCP
