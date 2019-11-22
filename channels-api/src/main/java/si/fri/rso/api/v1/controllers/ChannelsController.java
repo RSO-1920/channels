@@ -1,6 +1,9 @@
 package si.fri.rso.api.v1.controllers;
 
 import com.google.gson.Gson;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Metered;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import si.fri.rso.api.v1.MainController;
 import si.fri.rso.lib.UserChannelData;
 import si.fri.rso.services.beans.ChannelsBean;
@@ -24,6 +27,9 @@ public class ChannelsController extends MainController {
     private ChannelsBean channelsBean;
 
     @GET
+    @Timed(name = "channels_time_all")
+    @Counted(name = "channels_counted_all")
+    @Metered(name = "channels_metered_all")
     public Response getChannels() {
 
         List<ChannelDTO> channels = channelsBean.getChannels();
@@ -32,6 +38,9 @@ public class ChannelsController extends MainController {
     }
 
     @GET
+    @Timed(name = "channels_time_userChannels")
+    @Counted(name = "channels_counted_userChannels")
+    @Metered(name = "channels_metered_userChannels")
     @Path("userChannels/{userId}")
     public Response getUserChannels(@PathParam("userId") Integer userId) {
         List<ChannelDTO> userChannels = channelsBean.getUserChannels(userId);
@@ -41,6 +50,9 @@ public class ChannelsController extends MainController {
 
 
     @GET
+    @Timed(name = "channels_time_channelsUsers")
+    @Counted(name = "channels_counted_channelsUsers")
+    @Metered(name = "channels_metered_channelsUsers")
     @Path("channelUsers/{channelId}")
     public Response getChannelUsers(@PathParam("channelId") Integer channelId) {
         List<Integer> usersIds =  channelsBean.getChannelUsers(channelId);
@@ -50,6 +62,9 @@ public class ChannelsController extends MainController {
 
 
     @POST
+    @Timed(name = "channels_time_createChannel")
+    @Counted(name = "channels_counted_createChannel")
+    @Metered(name = "channels_metered_createChannel")
     @Path("createChannel")
     public Response createChannel(String body) {
 
@@ -69,6 +84,9 @@ public class ChannelsController extends MainController {
     }
 
     @PUT
+    @Timed(name = "channels_time_renameChannel")
+    @Counted(name = "channels_counted_renameChannel")
+    @Metered(name = "channels_metered_renameChannel")
     @Path("renameChannel")
     public Response renameChannel(String body) {
         Gson gson = new Gson();
@@ -88,6 +106,9 @@ public class ChannelsController extends MainController {
     }
 
     @POST
+    @Timed(name = "channels_time_addUserOnChannel")
+    @Counted(name = "channels_counted_addUserOnChannel")
+    @Metered(name = "channels_metered_addUserOnChannel")
     @Path("addUserOnChannel")
     public Response addUserOnChannel(String body) {
         Gson gson = new Gson();
@@ -106,6 +127,9 @@ public class ChannelsController extends MainController {
     }
 
     @DELETE
+    @Timed(name = "channels_time_removeUserOnChannel")
+    @Counted(name = "channels_counted_removeUserOnChannel")
+    @Metered(name = "channels_metered_removeUserOnChannel")
     @Path("remove/user/{userId}/channel/{channelId}")
     public Response removeUserOnChannel(@PathParam("userId") Integer userId, @PathParam("channelId") Integer channelId) {
 
@@ -119,6 +143,9 @@ public class ChannelsController extends MainController {
     }
 
     @DELETE
+    @Timed(name = "channels_time_removeChannel")
+    @Counted(name = "channels_counted_removeChannel")
+    @Metered(name = "channels_metered_removeChannel")
     @Path("{channelId}/channel")
     public Response deleteChannel(@PathParam("channelId") Integer channelId, @QueryParam("deleteDefault") boolean deleteDefault) {
         System.out.println("can delete default: " + deleteDefault);

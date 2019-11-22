@@ -23,3 +23,14 @@ kumuluzee:
       hosts: http://localhost:2379
     ttl: 30
     ping-interval: 5
+  health:
+    checks:
+      etcd-health-check:
+        connection-url: http://localhost:2379/health
+      data-source-health-check:
+        type: liveness
+        jndi-name: jdbc/ChannelDS
+  metrics:
+    web-instrumentation:
+      - name: channels-endpoint
+        url-pattern: /v1/channels/*
