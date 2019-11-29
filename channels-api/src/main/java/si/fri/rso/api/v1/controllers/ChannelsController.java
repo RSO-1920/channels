@@ -13,12 +13,14 @@ import si.fri.rso.lib.ChannelData;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.UUID;
 
 @Log
 @ApplicationScoped
@@ -30,8 +32,8 @@ public class ChannelsController extends MainController {
     @Inject
     private ChannelsBean channelsBean;
 
-    @Context
-    ContainerRequestContext reqContext;
+    @Inject
+    HttpServletRequest requestheader;
 
     @GET
     @Timed(name = "channels_time_all")
@@ -82,7 +84,9 @@ public class ChannelsController extends MainController {
             return Response.status(400).entity(this.responseError(400, "channelType, adminId or channelName is missing")).build();
         }
 
-        ChannelDTO createdChannel = channelsBean.createChannel(channelData, reqContext.getProperty("uniqueRequestId") != null ? reqContext.getProperty("uniqueRequestId").toString() : null );
+        String requestHeader = requestheader.getHeader("uniqueRequestId");
+
+        ChannelDTO createdChannel = channelsBean.createChannel(channelData, requestHeader != null ? requestHeader : UUID.randomUUID().toString() );
 
         if (createdChannel == null) {
             return Response.status(409).entity(this.responseError(409, "channel creation failed")).build();

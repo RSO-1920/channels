@@ -86,7 +86,7 @@ public class ChannelsBean {
 
 
     public ChannelDTO createChannel(ChannelData newChannel, String requestId){
-        System.out.println("request id: " + requestId);
+        System.out.println("request id METHOD: " + requestId);
 
         Query q = em.createNamedQuery("getTypeOnId").setParameter(1, newChannel.getChannelType());
         ChannelTypeEntity channelTypeEntity = (ChannelTypeEntity) q.getSingleResult();
