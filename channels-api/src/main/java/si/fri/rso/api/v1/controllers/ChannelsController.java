@@ -1,6 +1,7 @@
 package si.fri.rso.api.v1.controllers;
 
 import com.google.gson.Gson;
+import com.kumuluz.ee.logs.cdi.Log;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.Metered;
 import org.eclipse.microprofile.metrics.annotation.Timed;
@@ -13,10 +14,13 @@ import si.fri.rso.lib.ChannelData;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+@Log
 @ApplicationScoped
 @Path("/channels")
 @Produces(MediaType.APPLICATION_JSON)
@@ -25,6 +29,9 @@ public class ChannelsController extends MainController {
 
     @Inject
     private ChannelsBean channelsBean;
+
+    @Context
+    ContainerRequestContext reqContext;
 
     @GET
     @Timed(name = "channels_time_all")
@@ -74,7 +81,8 @@ public class ChannelsController extends MainController {
         if (channelData.getChannelType() == null || channelData.getAdminId() == null || channelData.getChannelName() == null) {
             return Response.status(400).entity(this.responseError(400, "channelType, adminId or channelName is missing")).build();
         }
-        ChannelDTO createdChannel = channelsBean.createChannel(channelData);
+
+        ChannelDTO createdChannel = channelsBean.createChannel(channelData, reqContext.getProperty("uniqueRequestId") != null ? reqContext.getProperty("uniqueRequestId").toString() : null );
 
         if (createdChannel == null) {
             return Response.status(409).entity(this.responseError(409, "channel creation failed")).build();
