@@ -7,6 +7,7 @@ import org.eclipse.microprofile.metrics.annotation.Metered;
 import org.eclipse.microprofile.metrics.annotation.Timed;
 import si.fri.rso.api.v1.MainController;
 import si.fri.rso.lib.UserChannelData;
+import si.fri.rso.lib.responses.ResponseDTO;
 import si.fri.rso.services.beans.ChannelsBean;
 import si.fri.rso.lib.ChannelDTO;
 import si.fri.rso.lib.ChannelData;
@@ -44,6 +45,25 @@ public class ChannelsController extends MainController {
         List<ChannelDTO> channels = channelsBean.getChannels();
 
         return Response.status(200).entity(this.responseOk("", channels)).build();
+    }
+
+    @GET
+    @Timed(name = "channels_time_one")
+    @Counted(name = "channels_counted_one")
+    @Metered(name = "channels_metered_one")
+    @Path("{channelId}")
+    public Response getChannel(@PathParam("channelId") Integer channelId) {
+
+        if (channelId == null) {
+            return Response.status(409).entity(this.responseError(400, "channelId not given")).build();
+        }
+
+        ChannelDTO channel = channelsBean.getChannel(channelId);
+        if (channel == null) {
+            return Response.status(400).entity(this.responseError(400, "channel with id not found")).build();
+        }
+
+        return Response.status(200).entity(this.responseOk("", channel)).build();
     }
 
     @GET
@@ -86,13 +106,13 @@ public class ChannelsController extends MainController {
 
         String requestHeader = requestheader.getHeader("uniqueRequestId");
 
-        ChannelDTO createdChannel = channelsBean.createChannel(channelData, requestHeader != null ? requestHeader : UUID.randomUUID().toString() );
+        ResponseDTO createdChannel = channelsBean.createChannel(channelData, requestHeader != null ? requestHeader : UUID.randomUUID().toString() );
 
         if (createdChannel == null) {
             return Response.status(409).entity(this.responseError(409, "channel creation failed")).build();
         }
 
-        return Response.status(200).entity(this.responseOk("", createdChannel)).build();
+        return Response.status(200).entity(createdChannel).build();
     }
 
     @PUT

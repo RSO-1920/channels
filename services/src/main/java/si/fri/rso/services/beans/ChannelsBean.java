@@ -1,8 +1,15 @@
 package si.fri.rso.services.beans;
 
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
+import com.kumuluz.ee.discovery.annotations.DiscoverService;
+import io.netty.channel.ChannelConfig;
+import si.fri.rso.config.ChannelConfigProperties;
 import si.fri.rso.lib.ChannelDTO;
 import si.fri.rso.lib.ChannelData;
+import si.fri.rso.lib.FileStorageBucketCreation;
 import si.fri.rso.lib.UserChannelData;
+import si.fri.rso.lib.responses.ResponseDTO;
 import si.fri.rso.services.models.converters.ChannelConverter;
 import si.fri.rso.services.models.converters.UserOnChannelConverter;
 import si.fri.rso.services.models.entities.ChannelEntity;
@@ -15,8 +22,16 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.ws.rs.ProcessingException;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequestScoped
@@ -28,8 +43,28 @@ public class ChannelsBean {
     @Inject
     private DbUtils dbUtils;
 
+    @Inject
+    ChannelConfigProperties channelConfigProperties;
+
+    @Inject
+    @DiscoverService(value = "rso1920-fileStorage")
+    private Optional<String> fileStorageUrl;
+
+    private Client httpClient;
+
     @PostConstruct
     private void init() {
+        this.httpClient = ClientBuilder.newClient();
+    }
+
+    public ChannelDTO getChannel(Integer channelId) {
+        ChannelEntity c = em.find(ChannelEntity.class, channelId);
+
+        if (c == null) {
+            return null;
+        }
+
+        return ChannelConverter.toDTO(c);
     }
 
     public List<ChannelDTO> getChannels() {
@@ -85,33 +120,61 @@ public class ChannelsBean {
     }
 
 
-    public ChannelDTO createChannel(ChannelData newChannel, String requestId){
+    public ResponseDTO createChannel(ChannelData newChannel, String requestId){
         System.out.println("request id METHOD: " + requestId);
 
-        Query q = em.createNamedQuery("getTypeOnId").setParameter(1, newChannel.getChannelType());
-        ChannelTypeEntity channelTypeEntity = (ChannelTypeEntity) q.getSingleResult();
-
-        ChannelEntity channelEntity = ChannelConverter.toEntity(newChannel, channelTypeEntity);
-
-        channelEntity = (ChannelEntity) dbUtils.createNewEntity(channelEntity);
-
-        if (channelEntity == null || channelEntity.getChannelId() == null) {
-            System.out.println("Channel not created");
+        if (!this.fileStorageUrl.isPresent()) {
             return null;
         }
+        try{
+            System.out.println("File-storage-url: " +  this.fileStorageUrl.get() + this.channelConfigProperties.getFileStorageCreateBucketURI()+ "/" + newChannel.getChannelName().replace(" ", "_").trim());
 
-        UsersOnChannelEntity usersOnChannelEntity = new UsersOnChannelEntity(newChannel.getAdminId(), channelEntity);
-        usersOnChannelEntity = (UsersOnChannelEntity) dbUtils.createNewEntity(usersOnChannelEntity);
+            Response success = this.httpClient
+                    .target(this.fileStorageUrl.get() + this.channelConfigProperties.getFileStorageCreateBucketURI()+ "/" + newChannel.getChannelName().replace(" ", "-").trim())
+                    .request(MediaType.APPLICATION_JSON_TYPE)
+                    .header("uniqueRequestId", requestId)
+                    .post( null);
 
-        if (usersOnChannelEntity == null || usersOnChannelEntity.getId() == null) {
-            System.out.println("user on channel not created");
-            return null;
+            System.out.println("Bucket creation status: " + success.getStatus());
+            if (success.getStatus() == 200) {
+                System.out.println("User bucket creation success");
+                System.out.println(success.getEntity());
+                Gson gson = new Gson();
+                FileStorageBucketCreation  bucketData = gson.fromJson(success.readEntity(String.class), FileStorageBucketCreation.class);
+                System.out.println("CREATED CHANNEL: " + bucketData.getName());
+
+                newChannel.setBucketName(bucketData.getName());
+
+                Query q = em.createNamedQuery("getTypeOnId").setParameter(1, newChannel.getChannelType());
+                ChannelTypeEntity channelTypeEntity = (ChannelTypeEntity) q.getSingleResult();
+
+                ChannelEntity channelEntity = ChannelConverter.toEntity(newChannel, channelTypeEntity);
+                channelEntity = (ChannelEntity) dbUtils.createNewEntity(channelEntity);
+
+                if (channelEntity == null || channelEntity.getChannelId() == null) {
+                    System.out.println("Channel not created");
+                    return null;
+                }
+
+                UsersOnChannelEntity usersOnChannelEntity = new UsersOnChannelEntity(newChannel.getAdminId(), channelEntity);
+                usersOnChannelEntity = (UsersOnChannelEntity) dbUtils.createNewEntity(usersOnChannelEntity);
+
+                if (usersOnChannelEntity == null || usersOnChannelEntity.getId() == null) {
+                    System.out.println("user on channel not created");
+                    return null;
+                }
+
+                System.out.println("Channel created");
+
+                return new ResponseDTO(200, "bucket creation success", ChannelConverter.toDTO(channelEntity));
+
+            } else {
+                return new ResponseDTO(400, "bucket file stoarage creation failed", null);
+            }
+        }catch (WebApplicationException | ProcessingException e) {
+            e.printStackTrace();
+            return new ResponseDTO(200, "api for creating bucket not reachabel", null);
         }
-
-        System.out.println("Channel created");
-        // TODO call to create bucket
-
-        return ChannelConverter.toDTO(channelEntity);
     }
 
     public ChannelDTO renameChannel(ChannelData updateChannelData){

@@ -55,3 +55,6 @@ kumuluzee:
                               </Root>
                           </Loggers>
                       </Configuration>'
+
+rest-config:
+  file-storage-create-bucket: /v1/fileTransfer

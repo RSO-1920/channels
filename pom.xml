@@ -13,6 +13,7 @@
         <module>services</module>
         <module>lib</module>
         <module>models</module>
+        <module>config</module>
     </modules>
 
     <properties>

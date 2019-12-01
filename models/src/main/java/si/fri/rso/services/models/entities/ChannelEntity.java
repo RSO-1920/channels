@@ -33,6 +33,9 @@ public class ChannelEntity implements MainEntity {
     @Column(name = "admin_id")
     private Integer adminId;
 
+    @Column(name = "bucket_name")
+    private String bucketName;
+
     @ManyToOne
     @JoinColumn(name = "fk_type_id")
     private ChannelTypeEntity channelTypeEntity;
@@ -66,5 +69,13 @@ public class ChannelEntity implements MainEntity {
 
     public void setChannelId(Integer channelId) {
         this.channelId = channelId;
+    }
+
+    public String getBucketName() {
+        return bucketName;
+    }
+
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
     }
 }

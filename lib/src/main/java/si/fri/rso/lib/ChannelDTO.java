@@ -7,6 +7,7 @@ public class ChannelDTO {
     private Integer adminId;
     private String channelName;
     private Optional<ChannelTypeDTO> channelType;
+    private String bucketName;
 
     public String getChannelName() {
         return channelName;
@@ -35,4 +36,11 @@ public class ChannelDTO {
         this.channelId = channelId;
     }
 
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
+    }
+
+    public String getBucketName() {
+        return bucketName;
+    }
 }

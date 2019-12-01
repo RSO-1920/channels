@@ -20,6 +20,7 @@ public class ChannelConverter {
         channel.setChannelId(channelEntity.getChannelId());
         channel.setChannelName(channelEntity.getChannelName());
         channel.setChannelType(channelTypeDTO);
+        channel.setBucketName(channelEntity.getBucketName());
 
         return channel;
     }
@@ -29,6 +30,8 @@ public class ChannelConverter {
         channelEntity.setAdminId(channelData.getAdminId());
         channelEntity.setChannelName(channelData.getChannelName());
         channelEntity.setChannelTypeEntity(channelTypeEntity);
+        // System.out.println("channel name: "+ channelData.getChannelName().replace(" ", "_").trim());
+        channelEntity.setBucketName(channelData.getBucketName());
 
         return channelEntity;
     }

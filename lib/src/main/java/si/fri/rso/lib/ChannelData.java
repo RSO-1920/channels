@@ -6,6 +6,8 @@ public class ChannelData {
     private String channelName;
     private Integer channelType;
 
+    private String bucketName;
+
     public String getChannelName() {
         return channelName;
     }
@@ -19,6 +21,10 @@ public class ChannelData {
         return channelType;
     }
 
+    public String getBucketName() {
+        return bucketName;
+    }
+
     public void setAdminId(Integer adminId) {
         this.adminId = adminId;
     }
@@ -30,5 +36,9 @@ public class ChannelData {
     }
     public void setChannelType(Integer channelType) {
         this.channelType = channelType;
+    }
+
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
     }
 }
