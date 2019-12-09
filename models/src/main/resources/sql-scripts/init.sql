@@ -1,7 +1,7 @@
 INSERT INTO channel_type (type_name) VALUES ('USER_DEFAULT');
 INSERT INTO channel_type (type_name) VALUES ('PUBLIC');
 
-INSERT INTO channel (channel_name, admin_id, fk_type_id, bucket_name) VALUES ('first channel user1', 1, 1, 'channel18');
+INSERT INTO channel (channel_name, admin_id, fk_type_id, bucket_name) VALUES ('first channel user1', 1, 1, 'channel184');
 INSERT INTO channel (channel_name, admin_id, fk_type_id, bucket_name) VALUES ('RSO', 1, 2, 'channel2');
 INSERT INTO channel (channel_name, admin_id, fk_type_id, bucket_name) VALUES ('first channel user2', 2, 1, 'channel3');
 INSERT INTO channel (channel_name, admin_id, fk_type_id, bucket_name) VALUES ('RSO 2', 2, 2, 'channel4');
