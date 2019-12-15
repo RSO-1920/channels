@@ -2,6 +2,11 @@ package si.fri.rso.api.v1.controllers;
 
 import com.google.gson.Gson;
 import com.kumuluz.ee.logs.cdi.Log;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.Metered;
 import org.eclipse.microprofile.metrics.annotation.Timed;
@@ -16,8 +21,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -37,6 +40,12 @@ public class ChannelsController extends MainController {
     HttpServletRequest requestheader;
 
     @GET
+    @Operation(description = "Get all channels", summary = "get all channels", tags = "get, channel", responses = {
+            @ApiResponse(responseCode = "200",
+                    description = "get channel",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ChannelDTO.class)))
+            )
+    })
     @Timed(name = "channels_time_all")
     @Counted(name = "channels_counted_all")
     @Metered(name = "channels_metered_all")
@@ -48,6 +57,16 @@ public class ChannelsController extends MainController {
     }
 
     @GET
+    @Operation(description = "Get ane channel", summary = "get one channel", tags = "get, channel", responses = {
+            @ApiResponse(responseCode = "200",
+                    description = "get channel",
+                    content = @Content(schema = @Schema(implementation = ChannelDTO.class))
+            ),
+            @ApiResponse(responseCode = "400",
+                    description = "error getting channel",
+                    content = @Content(schema = @Schema(implementation = ResponseDTO.class))
+            )
+    })
     @Timed(name = "channels_time_one")
     @Counted(name = "channels_counted_one")
     @Metered(name = "channels_metered_one")
@@ -67,6 +86,12 @@ public class ChannelsController extends MainController {
     }
 
     @GET
+    @Operation(description = "Get users channels", summary = "Get users channels", tags = "get, channel, user", responses = {
+            @ApiResponse(responseCode = "200",
+                    description = "get users channels",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ChannelDTO.class)))
+            )
+    })
     @Timed(name = "channels_time_userChannels")
     @Counted(name = "channels_counted_userChannels")
     @Metered(name = "channels_metered_userChannels")
@@ -79,6 +104,12 @@ public class ChannelsController extends MainController {
 
 
     @GET
+    @Operation(description = "Get channel users", summary = "Get channel users", tags = "get, channel, user", responses = {
+            @ApiResponse(responseCode = "200",
+                    description = "Get channel users",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = Integer.class)))
+            )
+    })
     @Timed(name = "channels_time_channelsUsers")
     @Counted(name = "channels_counted_channelsUsers")
     @Metered(name = "channels_metered_channelsUsers")
@@ -91,6 +122,20 @@ public class ChannelsController extends MainController {
 
 
     @POST
+    @Operation(description = "Create channel", summary = "Create channel", tags = "create, channel", responses = {
+            @ApiResponse(responseCode = "200",
+                    description = "Create channel",
+                    content = @Content(schema = @Schema(implementation = ResponseDTO.class))
+            ),
+            @ApiResponse(responseCode = "400",
+                    description = "missing params for channel creation",
+                    content = @Content(schema = @Schema(implementation = ResponseDTO.class))
+            ),
+            @ApiResponse(responseCode = "409",
+                    description = "channel creation failed",
+                    content = @Content(schema = @Schema(implementation = ResponseDTO.class))
+            )
+    })
     @Timed(name = "channels_time_createChannel")
     @Counted(name = "channels_counted_createChannel")
     @Metered(name = "channels_metered_createChannel")
@@ -116,6 +161,16 @@ public class ChannelsController extends MainController {
     }
 
     @PUT
+    @Operation(description = "Update channel params", summary = "Update channel params", tags = "update, channel", responses = {
+            @ApiResponse(responseCode = "200",
+                    description = "Channel update success",
+                    content = @Content(schema = @Schema(implementation = ChannelDTO.class))
+            ),
+            @ApiResponse(responseCode = "400",
+                    description = "Missing update channel params",
+                    content = @Content(schema = @Schema(implementation = ResponseDTO.class))
+            )
+    })
     @Timed(name = "channels_time_renameChannel")
     @Counted(name = "channels_counted_renameChannel")
     @Metered(name = "channels_metered_renameChannel")
@@ -138,6 +193,20 @@ public class ChannelsController extends MainController {
     }
 
     @POST
+    @Operation(description = "add user on channel", summary = "add user on channel", tags = "add, user,  channel", responses = {
+            @ApiResponse(responseCode = "200",
+                    description = "User successfully added on selected channel",
+                    content = @Content(schema = @Schema(implementation = Boolean.class))
+            ),
+            @ApiResponse(responseCode = "400",
+                    description = "Missing user and channel data",
+                    content = @Content(schema = @Schema(implementation = ResponseDTO.class))
+            ),
+            @ApiResponse(responseCode = "409",
+                    description = "Error adding user on channel",
+                    content = @Content(schema = @Schema(implementation = ResponseDTO.class))
+            )
+    })
     @Timed(name = "channels_time_addUserOnChannel")
     @Counted(name = "channels_counted_addUserOnChannel")
     @Metered(name = "channels_metered_addUserOnChannel")
@@ -159,6 +228,16 @@ public class ChannelsController extends MainController {
     }
 
     @DELETE
+    @Operation(description = "Remove user on channel", summary = "Remove user on channel", tags = "remove, user ,channel", responses = {
+            @ApiResponse(responseCode = "200",
+                    description = "remove user on channel success",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ResponseDTO.class)))
+            ),
+            @ApiResponse(responseCode = "409",
+                    description = "User is not removed on channel",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ResponseDTO.class)))
+            )
+    })
     @Timed(name = "channels_time_removeUserOnChannel")
     @Counted(name = "channels_counted_removeUserOnChannel")
     @Metered(name = "channels_metered_removeUserOnChannel")
@@ -175,6 +254,16 @@ public class ChannelsController extends MainController {
     }
 
     @DELETE
+    @Operation(description = "Delete channel", summary = "Delete channel", tags = "delete, channel", responses = {
+            @ApiResponse(responseCode = "200",
+                    description = "Delete channel success",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ResponseDTO.class)))
+            ),
+            @ApiResponse(responseCode = "409",
+                    description = "Channel with given id not deleted",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ResponseDTO.class)))
+            )
+    })
     @Timed(name = "channels_time_removeChannel")
     @Counted(name = "channels_counted_removeChannel")
     @Metered(name = "channels_metered_removeChannel")
