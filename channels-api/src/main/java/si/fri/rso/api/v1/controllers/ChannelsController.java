@@ -115,7 +115,7 @@ public class ChannelsController extends MainController {
     @Metered(name = "channels_metered_channelsUsers")
     @Path("channelUsers/{channelId}")
     public Response getChannelUsers(@PathParam("channelId") Integer channelId) {
-        List<Integer> usersIds =  channelsBean.getChannelUsers(channelId);
+        List<String> usersIds =  channelsBean.getChannelUsers(channelId);
 
         return Response.status(200).entity(this.responseOk("", usersIds)).build();
     }

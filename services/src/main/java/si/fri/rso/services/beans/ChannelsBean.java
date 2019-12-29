@@ -81,11 +81,11 @@ public class ChannelsBean {
         return channels.stream().map(ChannelConverter::toDTO).collect(Collectors.toList());
     }
 
-    public List<Integer> getChannelUsers(Integer channelId) {
+    public List<String> getChannelUsers(Integer channelId) {
         Query q = em.createNamedQuery("getUsersForChannel").setParameter(1, channelId);
         List<UsersOnChannelEntity> usersOnChannel = (List<UsersOnChannelEntity>) q.getResultList();
 
-        List<Integer> usersIds = new ArrayList<Integer>();
+        List<String> usersIds = new ArrayList<String>();
 
         for (UsersOnChannelEntity usersOnChannelEntity : usersOnChannel) {
             usersIds.add(usersOnChannelEntity.getUserId());

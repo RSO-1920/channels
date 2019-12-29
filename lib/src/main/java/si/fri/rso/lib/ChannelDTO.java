@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public class ChannelDTO {
     private Integer channelId;
-    private Integer adminId;
+    private String adminId;
     private String channelName;
     private Optional<ChannelTypeDTO> channelType;
     private String bucketName;
@@ -12,7 +12,7 @@ public class ChannelDTO {
     public String getChannelName() {
         return channelName;
     }
-    public Integer getAdminId() {
+    public String getAdminId() {
         return adminId;
     }
     public Integer getChannelId() {
@@ -26,7 +26,7 @@ public class ChannelDTO {
     public void setChannelType(ChannelTypeDTO channelType) {
         this.channelType = Optional.ofNullable(channelType);
     }
-    public void setAdminId(Integer adminId) {
+    public void setAdminId(String adminId) {
         this.adminId = adminId;
     }
     public void setChannelName(String channelName) {

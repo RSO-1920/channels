@@ -29,20 +29,19 @@ public class UsersOnChannelEntity implements MainEntity {
     private Integer id;
 
     @Column(name = "user_id")
-    private Integer userId;
+    private String userId;
 
     @ManyToOne
     @JoinColumn(name = "fk_channel_id")
     private ChannelEntity channelEntity;
 
     public UsersOnChannelEntity(){}
-    public UsersOnChannelEntity(Integer userId, ChannelEntity channelEntity){
+    public UsersOnChannelEntity(String userId, ChannelEntity channelEntity){
         this.userId = userId;
         this.channelEntity = channelEntity;
     }
 
-
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
@@ -58,7 +57,7 @@ public class UsersOnChannelEntity implements MainEntity {
         this.channelEntity = channelEntity;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 }

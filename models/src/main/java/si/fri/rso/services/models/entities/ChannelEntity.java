@@ -31,7 +31,7 @@ public class ChannelEntity implements MainEntity {
     private String channelName;
 
     @Column(name = "admin_id")
-    private Integer adminId;
+    private String adminId;
 
     @Column(name = "bucket_name")
     private String bucketName;
@@ -48,7 +48,7 @@ public class ChannelEntity implements MainEntity {
         return channelName;
     }
 
-    public Integer getAdminId() {
+    public String getAdminId() {
         return adminId;
     }
 
@@ -60,7 +60,7 @@ public class ChannelEntity implements MainEntity {
         this.channelName = channelName;
     }
 
-    public void setAdminId(Integer adminId) {
+    public void setAdminId(String adminId) {
         this.adminId = adminId;
     }
     public void setChannelTypeEntity(ChannelTypeEntity channelTypeEntity) {
