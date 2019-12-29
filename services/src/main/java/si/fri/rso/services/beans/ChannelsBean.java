@@ -74,7 +74,7 @@ public class ChannelsBean {
         return channels.stream().map(ChannelConverter::toDTO).collect(Collectors.toList());
     }
 
-    public List<ChannelDTO> getUserChannels(Integer userId) {
+    public List<ChannelDTO> getUserChannels(String userId) {
         Query q = em.createNamedQuery("getChannelsForUser").setParameter(1, userId);
         List<ChannelEntity> channels = (List<ChannelEntity>) q.getResultList();
 
