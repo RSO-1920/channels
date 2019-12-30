@@ -21,7 +21,7 @@ spec:
           - name: KUMULUZEE_CONFIG_ETCD_HOSTS
             value: http://etcd:2379
           - name: KUMULUZEE_SERVER_BASEURL
-            value: http://10.28.9.235:8080
+            value: http://10.0.2.60:8080
           - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
             value: jdbc:postgresql://35.241.190.224:5432/channels
           - name: KUMULUZEE_DATASOURCES0_USERNAME
