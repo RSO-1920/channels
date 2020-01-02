@@ -13,7 +13,7 @@ kumuluzee:
       allow-origin: "*"
   datasources:
     - jndi-name: jdbc/ChannelDS
-      connection-url: jdbc:postgresql://35.228.175.20:5432/channels
+      connection-url: jdbc:postgresql://localhost:5435/channels
       username: postgres
       password: postgres
       max-pool-size: 20
