@@ -7,6 +7,10 @@ kumuluzee:
     base-url: http://localhost:8080
     http:
       port: 8080
+  cors-filter:
+    servlet:
+      allow-generic-http-requests: true
+      allow-origin: "*"
   datasources:
     - jndi-name: jdbc/ChannelDS
       connection-url: jdbc:postgresql://localhost:5435/channels

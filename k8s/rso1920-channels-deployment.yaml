@@ -23,7 +23,7 @@ spec:
           - name: KUMULUZEE_SERVER_BASEURL
             value: http://10.0.2.60:8080
           - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
-            value: jdbc:postgresql://35.241.190.224:5432/channels
+            value: jdbc:postgresql://35.228.175.20:5432/channels
           - name: KUMULUZEE_DATASOURCES0_USERNAME
             value: postgres
           - name: KUMULUZEE_DATASOURCES0_PASSWORD
