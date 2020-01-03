@@ -242,7 +242,7 @@ public class ChannelsController extends MainController {
     @Counted(name = "channels_counted_removeUserOnChannel")
     @Metered(name = "channels_metered_removeUserOnChannel")
     @Path("remove/user/{userId}/channel/{channelId}")
-    public Response removeUserOnChannel(@PathParam("userId") Integer userId, @PathParam("channelId") Integer channelId) {
+    public Response removeUserOnChannel(@PathParam("userId") String userId, @PathParam("channelId") String channelId) {
 
         boolean isDeleted = channelsBean.removeUserOnChannel(userId, channelId);
 

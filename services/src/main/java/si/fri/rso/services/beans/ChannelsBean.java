@@ -197,7 +197,7 @@ public class ChannelsBean {
         return ChannelConverter.toDTO(updatedChannelEntity);
     }
 
-    public boolean removeUserOnChannel(Integer userId, Integer channelId) {
+    public boolean removeUserOnChannel(String userId, String channelId) {
         ChannelEntity c = em.find(ChannelEntity.class, channelId);
         if (c == null) {
             System.out.println("channel with channel id doesn't exist");
