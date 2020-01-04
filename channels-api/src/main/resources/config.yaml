@@ -11,6 +11,7 @@ kumuluzee:
     servlet:
       allow-generic-http-requests: true
       allow-origin: "*"
+      supported-methods: "GET, POST, HEAD, OPTIONS, PUT, DELETE"
   datasources:
     - jndi-name: jdbc/ChannelDS
       connection-url: jdbc:postgresql://localhost:5435/channels
