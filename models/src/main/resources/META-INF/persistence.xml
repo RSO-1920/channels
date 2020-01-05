@@ -9,10 +9,10 @@
     <class>si.fri.rso.services.models.entities.UsersOnChannelEntity</class>
     <class>si.fri.rso.services.models.entities.ChannelTypeEntity</class>
     <properties>
-        <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+        <!--<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
         <property name="javax.persistence.schema-generation.create-source" value="metadata"/>
         <property name="javax.persistence.sql-load-script-source" value="sql-scripts/init.sql" />
-        <property name="javax.persistence.schema-generation.drop-source" value="metadata"/>
+        <property name="javax.persistence.schema-generation.drop-source" value="metadata"/>-->
     </properties>
 </persistence-unit>
 </persistence>
